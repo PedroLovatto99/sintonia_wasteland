@@ -1,0 +1,35 @@
+services:
+
+  db:
+    image: mysql:8
+    environment:
+      MYSQL_ROOT_PASSWORD: ${DB_SENHA}
+      MYSQL_DATABASE: ${DB_NOME:-sintoniadb}
+    ports:
+      - 3307:3306
+    volumes:
+      - mysql_data:/var/lib/mysql
+    healthcheck:
+      test: ["CMD", "mysqladmin", "ping", "-h", "localhost", "-p${DB_SENHA}"]
+      interval: 5s
+      timeout: 5s
+      retries: 10
+
+  backend:
+    build: ./backend
+    ports:
+      - 8000:8000
+    env_file:
+      - ./backend/.env
+    environment:
+      DB_HOST: db
+      DB_PORT: 3306
+    volumes:
+      - chroma_data:/app/rag/chroma_db
+    depends_on:
+      db:
+        condition: service_healthy
+
+volumes:
+  mysql_data:
+  chroma_data:
