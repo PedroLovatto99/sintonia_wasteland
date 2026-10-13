@@ -1,0 +1,383 @@
+:root {
+    --pip-green: #f5d547;
+    --pip-bg: #121f12;
+    --vault-blue: #004e92;
+    --vault-yellow: #f5d547;
+    --bg-dark: #1a1a1a;
+}
+
+* {
+    box-sizing: border-box;
+}
+
+body {
+    background-color: var(--bg-dark);
+    font-family: 'Courier New', monospace;
+    color: var(--vault-yellow);
+
+    height: 100vh;
+    margin: 0;
+    overflow: hidden;
+
+    display: flex;
+    flex-direction: column;
+}
+
+#root {
+    flex-grow: 1;
+    min-height: 0;
+    display: flex;
+    flex-direction: column;
+}
+
+.vault-header, .vault-footer {
+    background-color: var(--vault-blue);
+    border-top: 4px solid var(--vault-yellow);
+    border-bottom: 4px solid var(--vault-yellow);
+    padding: 15px 0;
+    text-align: center;
+
+    flex-shrink: 0;
+    z-index: 20;
+}
+
+.vault-text {
+    text-transform: uppercase;
+    letter-spacing: 3px;
+    font-weight: bold;
+    font-size: 1.2rem;
+    margin: 0;
+}
+
+main {
+    flex-grow: 1;
+    position: relative;
+    width: 100%;
+
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    overflow: hidden;
+}
+
+.pipboy-wrapper {
+    position: relative;
+
+    height: 100%;
+
+    width: auto;
+
+    aspect-ratio: auto;
+
+    display: flex;
+    justify-content: center;
+    align-items: center;
+
+}
+
+.pipboy-img {
+
+    height: 100%;
+    width: auto;
+    object-fit: contain;
+    display: block;
+    margin-left: 50px;
+    filter: drop-shadow(0 0 15px rgba(0,0,0,0.9));
+
+}
+
+.pipboy-screen {
+    position: absolute;
+
+    top: 38%;
+    left: 44%;
+    width: 45%;
+    height: 35%;
+
+    transform: translate(-50%, -50%);
+
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+    z-index: 10;
+
+}
+
+.radio-info {
+
+    width: 85%;
+
+    margin: 0 auto 15px auto;
+
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+
+    color: var(--pip-green);
+    text-shadow: 0 0 5px var(--pip-green);
+}
+
+.label {
+    font-size: 1.1rem;
+    opacity: 0.7;
+    margin-bottom: 5px;
+    letter-spacing: 1px;
+    width: 100%;
+    text-align: center;
+}
+
+.song-title {
+    font-size: 1.1rem;
+    font-weight: bold;
+    margin: 5px 0;
+    text-transform: uppercase;
+    line-height: 1.2;
+
+    width: 100%;
+    text-align: center;
+    white-space: normal;
+    word-wrap: break-word;
+}
+
+.artist-name {
+    font-size: 1rem;
+    margin: 0 0 10px 0;
+    text-transform: uppercase;
+
+    width: 100%;
+    text-align: center;
+    white-space: normal;
+}
+
+.time-display {
+    font-size: 0.8rem;
+    margin-top: 5px;
+    width: 100%;
+    text-align: center;
+}
+
+.wave-container {
+    display: flex;
+    justify-content: center;
+    align-items: flex-end;
+    height: 30px;
+    gap: 4px;
+}
+
+.bar {
+    width: 6px;
+    background-color: var(--pip-green);
+    box-shadow: 0 0 8px var(--pip-green);
+    animation: wave-animation 1s infinite ease-in-out;
+}
+
+@keyframes wave-animation {
+    0%, 100% { height: 10%; }
+    50% { height: 100%; }
+}
+
+.bar:nth-child(odd) { animation-duration: 0.8s; }
+.bar:nth-child(even) { animation-duration: 1.2s; }
+
+.volume-controls {
+    margin-top: 15px;
+    width: 80%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+
+    gap: 15px;
+}
+
+.vol-label {
+    font-size: 0.8rem;
+    width: 60%;
+    font-weight: bold;
+    color: var(--pip-green);
+    white-space: nowrap;
+}
+
+input[type=range] {
+    -webkit-appearance: none;
+    appearance: none;
+
+    width: 100%;
+    background: transparent;
+}
+
+input[type=range]:focus {
+    outline: none;
+}
+
+input[type=range]::-webkit-slider-runnable-track {
+    width: 100%;
+    height: 6px;
+    cursor: pointer;
+    background: #0a140a;
+    border: 1px solid var(--pip-green);
+    box-shadow: 0 0 2px var(--pip-green);
+}
+
+input[type=range]::-webkit-slider-thumb {
+    height: 14px;
+    width: 14px;
+
+    background: #f5d547;
+    box-shadow: 0 0 8px #f5d547;
+
+    cursor: pointer;
+    -webkit-appearance: none;
+    margin-top: -5px;
+}
+
+input[type=range]::-moz-range-thumb {
+    height: 14px;
+    width: 14px;
+    background: #f5d547;
+    border: none;
+    border-radius: 0;
+    cursor: pointer;
+}
+
+.overlay {
+    position: fixed;
+    top: 0; left: 0;
+    width: 100%; height: 100%;
+    background-color: rgba(0, 0, 0, 0.95);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 9999;
+    transition: opacity 0.5s ease;
+    cursor: pointer;
+
+    background-image: linear-gradient(
+        transparent 50%,
+        rgba(0, 0, 0, 0.5) 50%
+    );
+    background-size: 100% 4px;
+}
+
+.overlay-content {
+    text-align: center;
+    border: 4px solid var(--vault-yellow);
+    padding: 40px;
+    background-color: var(--vault-blue);
+    box-shadow: 0 0 30px var(--vault-yellow);
+    max-width: 90%;
+}
+
+.overlay-content h1 {
+    font-size: 2.5rem;
+    margin-bottom: 20px;
+    text-shadow: 3px 3px 0 #000;
+}
+
+.overlay-content p {
+    font-size: 1.2rem;
+    animation: blink 1.5s infinite;
+}
+
+@keyframes blink {
+    0%, 100% { opacity: 1; }
+    50% { opacity: 0; }
+}
+
+@media (max-width: 600px) {
+    .pipboy-wrapper {
+        width: 100%;
+        height: auto;
+    }
+
+    .song-title { font-size: 1rem; }
+    .artist-name { font-size: 0.8rem; }
+}
+
+.dj-mode .artist-name {
+    font-size: 0.3rem;
+    line-height: 1.15;
+    white-space: normal;
+    text-align: justify;
+
+    width: 70%;
+    margin: 0 auto;
+    max-height: 100px;
+
+    overflow-y: auto;
+    overflow-x: hidden;
+    padding: 0 5px;
+
+    scrollbar-width: none;
+    -ms-overflow-style: none;
+}
+
+.dj-mode .artist-name::-webkit-scrollbar {
+    display: none;
+}
+
+.blink-text {
+    animation: blink-animation 1s steps(2, start) infinite;
+}
+
+@keyframes blink-animation {
+    to { visibility: hidden; }
+}
+
+.inner-container.dj-active .wave-container,
+.inner-container.dj-active .volume-controls {
+    display: none !important;
+}
+
+.inner-container.dj-active .artist-name {
+    font-size: 0.85rem;
+    line-height: 1.3;
+    white-space: normal;
+    text-align: justify;
+
+    width: 80%;
+    margin: 10px auto 0 auto;
+
+    max-height: 250px;
+
+    overflow-y: auto;
+    padding-right: 5px;
+
+    scrollbar-width: none;
+    -ms-overflow-style: none;
+}
+
+.side-char {
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+    width: auto;
+    z-index: 5;
+    pointer-events: none;
+
+    filter: drop-shadow(0 0 3px #f5d547) drop-shadow(0 0 15px #f5d547);
+
+}
+
+.char-left {
+    left: 1%;
+
+    height: 70%;
+
+}
+
+.char-right {
+    right: 1%;
+    left: 60%;
+
+    height: 85%;
+
+}
+
+@media (max-width: 1200px) {
+
+    .side-char {
+        display: none;
+    }
+}
