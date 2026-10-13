@@ -7,8 +7,6 @@ from utils.utils_functions import sortear_assunto, proxima_musica
 rota_radio = APIRouter(tags=["radio"])
 
 
-# `def` (e não `async def`): obter_fala e o acesso ao banco bloqueiam,
-# então o FastAPI roda essas rotas numa threadpool em vez de travar o event loop.
 @rota_radio.get("/chamar-dj")
 def chamar_dj():
     assunto = sortear_assunto()

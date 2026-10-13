@@ -20,7 +20,7 @@ services:
     ports:
       - 8000:8000
     env_file:
-      - ./backend/.env
+      - ./.env
     environment:
       DB_HOST: db
       DB_PORT: 3306
@@ -29,6 +29,13 @@ services:
     depends_on:
       db:
         condition: service_healthy
+
+  frontend:
+    build: ./frontend/dj-fallout
+    ports:
+      - 8080:80
+    depends_on:
+      - backend
 
 volumes:
   mysql_data:
